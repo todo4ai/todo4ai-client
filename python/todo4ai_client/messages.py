@@ -85,6 +85,7 @@ def block_diff_result_msg(todo_id, block_id, original_content, ai_generated_cont
         }
     }
 
+
 # Task action messages
 def task_action_update_msg(task_id, edge_id, status, message=None):
     payload = {
@@ -100,6 +101,7 @@ def task_action_update_msg(task_id, edge_id, status, message=None):
         "payload": payload
     }
 
+
 # Directory and file messages
 def dir_list_response_msg(todo_id, paths):
     return {
@@ -110,19 +112,18 @@ def dir_list_response_msg(todo_id, paths):
         }
     }
 
-def cd_response_msg(todo_id, path, success=True, error=None):
-    payload = {
-        "todoId": todo_id,
-        "path": path,
-        "success": success
-    }
-    if error:
-        payload["error"] = error
-    
+
+def cd_response_msg(edge_id, path, request_id, success=True):
     return {
         "type": EF.EDGE_CD_RESPONSE,
-        "payload": payload
+        "payload": {
+            "edgeId": edge_id,
+            "path": path,
+            "success": success,
+            "request_id": request_id,
+        }
     }
+
 
 # Context request responses
 def ctx_julia_result_msg(todo_id, message_id, filepaths=None, contents=None, error=None):

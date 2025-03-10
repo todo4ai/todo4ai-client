@@ -62,7 +62,7 @@ async def handle_todo_dir_list(payload, client):
 async def handle_todo_cd(payload, client):
     """Handle todo change directory request and update workspace list"""
     request_id = payload.get("requestId")
-    todo_id = payload.get("todoId")
+    edge_id = payload.get("edgeId")
     path = payload.get("path", ".")
     
     try:
@@ -94,10 +94,10 @@ async def handle_todo_cd(payload, client):
                     else:
                         logger.error(f"Failed to update workspace paths")
         
-        await client._send_response(cd_response_msg(todo_id, path, True))
+        await client._send_response(cd_response_msg(edge_id, path, request_id, True))
     except Exception as error:
         logger.error(f"Error changing directory: {str(error)}")
-        await client._send_response(cd_response_msg(todo_id, path, False, str(error)))
+        await client._send_response(cd_response_msg(edge_id, path, request_id, False))
 
 
 async def handle_block_execute(payload, client):
